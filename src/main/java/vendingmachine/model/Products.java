@@ -1,8 +1,11 @@
 package vendingmachine.model;
 
-import vendingmachine.ProductResponse;
+import vendingmachine.StringUtils;
+import vendingmachine.response.ProductResponse;
+import vendingmachine.response.SoldResponse;
 
 import java.util.List;
+import java.util.OptionalInt;
 
 public class Products {
 
@@ -12,11 +15,34 @@ public class Products {
         Products.products = products;
     }
 
-    public void add(Product product) {
+    public static Product getById(String productId) {
+        return products.stream()
+                .filter(p -> p.isSameId(StringUtils.parseInt(productId)))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 입력입니다. 다시 입력하세요"));
+    }
+
+    public static List<SoldResponse> getSoldResponses() {
+        return products.stream()
+                .map(Product::getSoldResponse)
+                .toList();
+    }
+
+    public static int getNewId() {
+        OptionalInt max = products.stream()
+                .mapToInt(Product::getId)
+                .max();
+        if (max.isPresent()) {
+            return max.getAsInt() + 1;
+        }
+        return 10;
+    }
+
+    public static void add(Product product) {
         products.add(product);
     }
 
-    public void removeById(int id) {
+    public static void removeById(int id) {
         Product product = products.stream()
                 .filter(p -> p.isSameId(id))
                 .findFirst()

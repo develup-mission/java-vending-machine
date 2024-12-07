@@ -1,4 +1,4 @@
-package vendingmachine;
+package vendingmachine.response;
 
 public record ProductResponse(
         int id,

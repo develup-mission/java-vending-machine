@@ -1,21 +1,33 @@
-package vendingmachine;
+package vendingmachine.model;
+
+import vendingmachine.response.CashResponse;
+import vendingmachine.response.ChangeResponse;
 
 public class ChangeCalculator {
 
-    private final Cash cash;
+    private final Cash cash; // 자판기가 보유 중인 현금
 
     public ChangeCalculator(Cash cash) {
         this.cash = cash;
     }
 
-    public ChangeResponse getChangeResponse(Cash purchaseAmount, Cash inputAmount) {
-        Change change = new Change(inputAmount.calcTotal() - purchaseAmount.calcTotal());
+    public CashResponse getCashResponse() {
+        return cash.getResponse();
+    }
+
+    public ChangeResponse getChangeResponse(int purchaseAmount, Cash inputAmount) {
+        Change change = new Change(inputAmount.calcTotal() - purchaseAmount);
         checkCashOnHand(change);
 
         int oneThousandChange = change.getOneThousandChange();
         int fiveHundredChange = change.getFiveHundredChange();
         int oneHundredChange = change.getOneHundredChange();
         int fiftyChange = change.getFiftyChange();
+
+        cash.use(1000, oneThousandChange);
+        cash.use(500, fiveHundredChange);
+        cash.use(100, oneHundredChange);
+        cash.use(50, fiftyChange);
         return new ChangeResponse(oneThousandChange, fiveHundredChange, oneHundredChange, fiftyChange);
     }
 

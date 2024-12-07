@@ -2,6 +2,9 @@ package vendingmachine;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import vendingmachine.model.Cash;
+import vendingmachine.model.ChangeCalculator;
+import vendingmachine.response.ChangeResponse;
 
 public class ChangeCalculatorTest {
 
@@ -9,7 +12,8 @@ public class ChangeCalculatorTest {
     @Test
     void sufficientChangeTest() {
         // 1600원의 거스름 돈이 발생 하는 경우
-        ChangeCalculator changeCalculator = new ChangeCalculator(Cash.of(1, 1, 2, 2)); // 1000, 500, 100, 50
+        ChangeCalculator changeCalculator = new ChangeCalculator(); // 1000, 500, 100, 50
+        changeCalculator.setCash(Cash.of(1, 1, 2, 2));
         ChangeResponse changeResponse =  changeCalculator.getChangeResponse(
                 Cash.of(1, 0, 0, 0),
                 Cash.of(2, 1, 1, 0));

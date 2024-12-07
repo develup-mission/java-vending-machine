@@ -1,6 +1,7 @@
 package vendingmachine.model;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -41,9 +42,9 @@ public enum BeginningProduct {
     public static void initProducts() {
         Random random = new Random();
         int randomStock = random.nextInt(10, 31);
-        List<Product> beginningProducts = Arrays.stream(BeginningProduct.values())
+        List<Product> beginningProducts = new ArrayList<>(Arrays.stream(BeginningProduct.values())
                 .map(ip -> new Product(ip.id, ip.name, ip.price, randomStock))
-                .toList();
+                .toList());
         Products.init(beginningProducts);
     }
 }

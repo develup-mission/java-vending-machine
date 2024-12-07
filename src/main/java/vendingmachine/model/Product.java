@@ -1,13 +1,15 @@
 package vendingmachine.model;
 
-import vendingmachine.ProductResponse;
+import vendingmachine.response.ProductResponse;
+import vendingmachine.response.SoldResponse;
 
 public class Product {
 
     private int id;
     private final String name;
     private final int price;
-    private final int stock;
+    private int stock;
+    private int sold = 0;
 
     public Product(int id, String name, int price, int stock) {
         this.id = id;
@@ -34,5 +36,30 @@ public class Product {
 
     public boolean isSufficient() {
         return stock > 0;
+    }
+
+    public boolean isSufficientCashToBuy(int cash) {
+        return price <= cash;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public SoldResponse getSoldResponse() {
+        return new SoldResponse(id, name, sold);
+    }
+
+    public void purchase() {
+        this.stock -= 1;
+        this.sold += 1;
+    }
+
+    public boolean isAdmin() {
+        return name.equals("admin");
+    }
+
+    public int getId() {
+        return id;
     }
 }
