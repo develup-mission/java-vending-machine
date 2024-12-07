@@ -1,4 +1,6 @@
-package vendingmachine;
+package vendingmachine.model;
+
+import vendingmachine.ProductResponse;
 
 public class Product {
 
@@ -28,5 +30,9 @@ public class Product {
 
     public void decreaseId() {
         id -= 1;
+    }
+
+    public boolean isSufficient() {
+        return stock > 0;
     }
 }

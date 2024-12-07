@@ -1,4 +1,4 @@
-package vendingmachine;
+package vendingmachine.model;
 
 
 import java.util.Arrays;
@@ -38,13 +38,13 @@ public enum BeginningProduct {
         this.price = price;
     }
 
-    public static Products initProducts() {
+    public static void initProducts() {
         Random random = new Random();
         int randomStock = random.nextInt(10, 31);
         List<Product> beginningProducts = Arrays.stream(BeginningProduct.values())
                 .map(ip -> new Product(ip.id, ip.name, ip.price, randomStock))
                 .toList();
-        return new Products(beginningProducts);
+        Products.init(beginningProducts);
     }
 }
 

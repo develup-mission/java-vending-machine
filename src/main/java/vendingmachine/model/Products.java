@@ -1,13 +1,15 @@
-package vendingmachine;
+package vendingmachine.model;
+
+import vendingmachine.ProductResponse;
 
 import java.util.List;
 
 public class Products {
 
-    private final List<Product> products;
+    private static List<Product> products;
 
-    public Products(List<Product> products) {
-        this.products = products;
+    public static void init(List<Product> products) {
+        Products.products = products;
     }
 
     public void add(Product product) {
@@ -27,9 +29,17 @@ public class Products {
         products.remove(product);
     }
 
-    public List<ProductResponse> getProductResponses() {
+    public static List<ProductResponse> getProductResponses() {
         return products.stream()
                 .map(Product::getProductResponse)
                 .toList();
+    }
+
+    public static boolean isSufficient(String productId) {
+        Product product = products.stream()
+                .filter(p -> p.isSameId(Integer.parseInt(productId)))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 상품이 존재하지 않습니다"));
+        return product.isSufficient();
     }
 }
